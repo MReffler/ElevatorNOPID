@@ -4,10 +4,12 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -21,10 +23,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ElevatorSubsystem m_elevatorSubsystem = new ElevatorSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController =
+      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -49,6 +54,15 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    // Instant Commands Executed when button is pressed (false to true) holding the button is not necessary
+    m_operatorController.x().onTrue( m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.setPosition(ElevatorConstants.kLevel1) ) );
+    m_operatorController.b().onTrue( m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.setPosition(ElevatorConstants.KLevel2) ) );
+    m_operatorController.y().onTrue( m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.setPosition(ElevatorConstants.KLevel3) ) );
+    m_operatorController.button(7).onTrue( m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.setPosition(ElevatorConstants.KLoadit) ) );
+    m_operatorController.a().onTrue( m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.setHome() ) );
+    m_operatorController.button(8).onTrue( m_elevatorSubsystem.runOnce(() -> m_elevatorSubsystem.setAbort() ) );
+
   }
 
   /**

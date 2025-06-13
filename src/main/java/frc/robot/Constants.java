@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -15,5 +17,18 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
   }
+  public static class ElevatorConstants {
+    public static final int kMotorId = 1;
+    public static final int kSlaveId = 2;
+    public static final int kDigitalPort = 0;
+    public static final String kCanBus = "rio";
+    public static final TalonFXConfiguration kTalonFCFactoryDefaults = new TalonFXConfiguration();
+    public static final double kLevel1 = 1000;
+    public static final double KLevel2 = 2000;
+    public static final double KLevel3 = 3000;
+    public static final double KLoadit = 2500;
+}
+
 }
